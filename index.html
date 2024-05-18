@@ -13,7 +13,7 @@
         <div class="row justify-content-center mt-5">
             <div class="col-md-6 text-center">
                 <h1 class="mb-4">Welcome to MyWebsite</h1>
-                <form class="form-inline justify-content-center">
+                <form class="form-inline justify-content-center" id="searchForm">
                     <div class="form-group mb-2">
                         <input type="text" class="form-control" id="searchInput" placeholder="Search...">
                     </div>
@@ -24,8 +24,34 @@
     </div>
 
     <!-- Bootstrap JS and dependencies -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- Custom JavaScript -->
+    <script>
+        $(document).ready(function() {
+            $('#searchForm').submit(function(event) {
+                event.preventDefault();
+                const searchInput = $('#searchInput').val().trim();
+                if (searchInput !== '') {
+                    $.ajax({
+                        url: `https://www.tiktok.com/api/search/general/full/?keyword=${searchInput}`,
+                        method: 'GET',
+                        dataType: 'json',
+                        success: function(data) {
+                            // Handle the retrieved data, e.g., display it on the page
+                            console.log(data);
+                        },
+                        error: function(xhr, status, error) {
+                            console.error('Error fetching data:', error);
+                        }
+                    });
+                } else {
+                    alert('Please enter a keyword to search.');
+                }
+            });
+        });
+    </script>
 </body>
 </html>
